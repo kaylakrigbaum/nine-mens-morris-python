@@ -105,18 +105,52 @@ def displayBoard(board, rows, cols):
         for cols in rows:
             print '{:4}'.format(cols),
         print
+
+    print('   a    b    c    d    e    f    g')
     return
 
 #test board creation
 def testBoardCreation(board, size):
-    return board.size() == size
+    return len(board) == size
 
 #test mills
 def testMills(board):
     return
 
 #phase 1: players place their pieces on the board
-def placementStage():
+def placementStage(white, black, board, validBoard):
+    currentPlayer = 'white'
+    currentTurnNum = 1
+    while (white.placedPieces < 9 or black.placedPieces < 9):
+        move = raw_input("It is: " + currentPlayer + "'s turn.  Enter a location to place a piece: ")
+
+        #convert col letter to index
+        colChar = move[0]
+        colNum = int(colChar - 97)
+        rowNum = move[1] - '0' - 1
+
+        #check if move is legal
+        if (colNum < validBoard.size() and rowNum < validBoard.size() and validBoard[rowNum][colNum] == 1 and board[rowNum][colNum] ==0):
+            #place piece
+            board[rowNum][colNum] = currentTurnNum
+
+            #check for mill
+            if (white.placedPieces >=2 or black.placedPieces >= 2):
+                checkForMill(board, True, currentPlayer)
+
+            if (currentTurnNum == 1):
+                white.placedPieces += 1
+                currentPlayer = "black"
+                currentTurnNum = 2
+
+            else:
+                black.placedPieces += 1
+                currentPlayer = "white"
+                currentTurnNum = 1
+
+        else:
+            print("Invalid location.")
+            continue
     return
 
 #player class
@@ -124,7 +158,7 @@ class player:
     def __init__(self):
         self.player = 0
         self.pieceCount = 0
-        self.placePieces = 0
+        self.placedPieces = 0
         self.phase = 0
 
 #main game logic area
@@ -159,6 +193,29 @@ def main():
         while playing:
             if testBoardCreation(board, 7):
                 displayBoard(board, rows, cols)
+
+                #if turn is p1
+                if playerTurn == 1:
+                    placementStage(p1, p2, board, validBoard)
+
+                #if turn is p2
+                if playerTurn == 2:
+                    placementStage(p2, p1, board, validBoard)
+
+                #check piece count
+                if (p1.pieceCount < 3 or p2.pieceCount < 3):
+                    if p1.pieceCount < 3:
+                        print("Player 2 has won, duces bitch!")
+
+                    else:
+                        print("Player 1 has won, duces bitch!")
+                        playing = False
+
+                print("Begin next turn round!")
+
+            else:
+                print("Something went wrong")
+                return
 
 
 if __name__=="__main__":
