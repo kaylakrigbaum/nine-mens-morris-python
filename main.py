@@ -1,4 +1,17 @@
 import random
+import pygame
+import sys
+
+BLUE = (0, 0, 255)
+
+square_size = 100
+
+width = 7 * square_size
+height = 8 * square_size
+
+size = (width, height)
+
+screen = pygame.display.set_mode(size)
 
 
 # menu
@@ -166,6 +179,11 @@ def placementStage(white, black, board, validBoard):
             continue
     return
 
+def draw_board(board, validBoard):
+    for c in range(7):
+        for r in range(7):
+            if validBoard[c][r] == 1:
+                pygame.draw.circle(screen, BLUE, (c * square_size + 50, r*square_size + square_size + 50), 20)
 
 # player class
 class player:
@@ -178,6 +196,8 @@ class player:
 
 # main game logic area
 def main():
+    pygame.init()
+
     playing = menu()
     if playing:
         # initialize valid board
@@ -194,42 +214,52 @@ def main():
         board = [[0 for x in range(rows)] for y in range(cols)]
 
         # display board
-        displayBoard(board, validBoard, rows, cols)
+
 
         # declare player objects
         p1 = player()
         p2 = player()
 
         # randomize turn
-        playerTurn = selectPlayerTurn()
-
-        # begin the game turns in a loop
         while playing:
-            if testBoardCreation(board, 7):
-                displayBoard(board, validBoard, rows, cols)
 
-                # if turn is p1
-                if playerTurn == 1:
-                    placementStage(p1, p2, board, validBoard)
+            playerTurn = selectPlayerTurn()
+            for event in pygame.event.get():
+                draw_board(board, validBoard)
+                pygame.display.update()
+                if event.type == pygame.QUIT:
+                    sys.exit()
 
-                # if turn is p2
-                if playerTurn == 2:
-                    placementStage(p2, p1, board, validBoard)
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    pass
 
-                # check piece count
-                if p1.pieceCount < 3 or p2.pieceCount < 3:
-                    if p1.pieceCount < 3:
-                        print("Player 2 has won, duces bitch!")
+                    # begin the game turns in a loop
 
-                    else:
-                        print("Player 1 has won, duces bitch!")
-                        playing = False
-
-                print("Begin next turn round!")
-
-            else:
-                print("Something went wrong")
-                return
+                    # if testBoardCreation(board, 7):
+                    #     displayBoard(board, validBoard, rows, cols)
+                    #
+                    #     # if turn is p1
+                    #     if playerTurn == 1:
+                    #         placementStage(p1, p2, board, validBoard)
+                    #
+                    #     # if turn is p2
+                    #     if playerTurn == 2:
+                    #         placementStage(p2, p1, board, validBoard)
+                    #
+                    #     # check piece count
+                    #     if p1.pieceCount < 3 or p2.pieceCount < 3:
+                    #         if p1.pieceCount < 3:
+                    #             print("Player 2 has won, duces bitch!")
+                    #
+                    #         else:
+                    #             print("Player 1 has won, duces bitch!")
+                    #             playing = False
+                    #
+                    #     print("Begin next turn round!")
+                    #
+                    # else:
+                    #     print("Something went wrong")
+                    #     return
 
 
 if __name__ == "__main__":
