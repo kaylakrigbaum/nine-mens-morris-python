@@ -4,7 +4,8 @@ import sys
 import math
 
 BLUE = (0, 0, 255)
-
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
 
 
 # menu
@@ -26,7 +27,6 @@ def menu():
 
 # randomly select player turn
 def selectPlayerTurn():
-    turn = 0
     turn = random.randint(1, 2)
     return turn
 
@@ -134,6 +134,10 @@ def testMills(board):
     return
 
 
+def drop_piece(board, row, col, piece):
+    board[row][col] = piece
+
+
 # phase 1: players place their pieces on the board
 def placementStage(white, black, board, validBoard):
     currentPlayer = 'white'
@@ -147,49 +151,55 @@ def placementStage(white, black, board, validBoard):
                 posx = event.pos[0]
                 posy = event.pos[1]
 
-                col = int(math.floor(posx/square_size))
-                row = int(math.floor(posy/square_size))
+                col = int(math.floor(posx / square_size))
+                row = int(math.floor(posy / square_size))
 
                 if validBoard[col][row] == 1:
                     print("You clicked legally")
                 else:
                     print("Illegal")
-                # # convert col letter to index
-                # colChar = move[0]
-                # colNum = ord(colChar) - 97
-                # rowNum = int(move[1])
-                #
-                # # check if move is legal
-                # if colNum < len(validBoard) and rowNum < len(validBoard) and validBoard[rowNum][colNum] == 1 and \
-                #         board[rowNum][colNum] == 0:
-                #     # place piece
-                #     board[rowNum][colNum] = currentTurnNum
-                #
-                #     # check for mill
-                #     if white.placedPieces >= 2 or black.placedPieces >= 2:
-                #         checkForMill(board, True, currentPlayer)
-                #
-                #     displayBoard(board, validBoard, 7, 7)
-                #     if currentTurnNum == 1:
-                #         white.placedPieces += 1
-                #         currentPlayer = "black"
-                #         currentTurnNum = 2
-                #
-                #     else:
-                #         black.placedPieces += 1
-                #         currentPlayer = "white"
-                #         currentTurnNum = 1
-                #
-                # else:
-                #     print("Invalid location.")
-                #     continue
+                # convert col letter to index
+                colChar = move[0]
+                colNum = ord(colChar) - 97
+                rowNum = int(move[1])
+
+                # check if move is legal
+                if colNum < len(validBoard) and rowNum < len(validBoard) and validBoard[rowNum][colNum] == 1 and \
+                        board[rowNum][colNum] == 0:
+                    # place piece
+                    board[rowNum][colNum] = currentTurnNum
+
+                    # check for mill
+                    if white.placedPieces >= 2 or black.placedPieces >= 2:
+                        checkForMill(board, True, currentPlayer)
+
+                    displayBoard(board, validBoard, 7, 7)
+                    if currentTurnNum == 1:
+                        white.placedPieces += 1
+                        currentPlayer = "black"
+                        currentTurnNum = 2
+
+                    else:
+                        black.placedPieces += 1
+                        currentPlayer = "white"
+                        currentTurnNum = 1
+
+                else:
+                    print("Invalid location.")
+                    continue
     return
 
+
 def draw_board(board, validBoard):
-    for c in range(7):
-        for r in range(7):
-            if validBoard[c][r] == 1:
-                pygame.draw.circle(screen, BLUE, (c * square_size + 50, r*square_size + square_size + 50), 20)
+    for r in range(7):
+        for c in range(7):
+            if validBoard[r][c] == 1:
+                if board[r][c] == 0:
+                    pygame.draw.circle(screen, BLUE, (c * square_size + 50, r * square_size + square_size + 50), 20)
+                elif board[r][c] == 1:
+                    pygame.draw.circle(screen, WHITE, (c * square_size + 50, r * square_size + square_size + 50), 20)
+                else:
+                    pygame.draw.circle(screen, BLACK, (c * square_size + 50, r * square_size + square_size + 50), 20)
 
 
 # player class
@@ -199,6 +209,8 @@ class player:
         self.pieceCount = 0
         self.placedPieces = 0
         self.phase = 0
+        self.color = ""
+
 
 # main game logic area
 playing = menu()
@@ -214,6 +226,8 @@ if playing:
     size = (width, height)
 
     screen = pygame.display.set_mode(size)
+    screen.fill((255, 0, 0))
+    pygame.display.update()
     # initialize valid board
     validBoard = [[1, 0, 0, 1, 0, 0, 1],
                   [0, 1, 0, 1, 0, 1, 0],
@@ -229,37 +243,57 @@ if playing:
 
     # display board
 
-
     # declare player objects
     p1 = player()
     p2 = player()
 
     # randomize turn
+    playerTurn = selectPlayerTurn()
+    turnToggle = 1 # this is used to toggle between white and black
+    if playerTurn == 1:
+        p1.color = "white"
+        p2.color = "black"
+    else:
+        p2.color = "white"
+        p1.color = "black"
+
     while playing:
-        playerTurn = selectPlayerTurn()
         if testBoardCreation(board, 7):
             draw_board(board, validBoard)
-            pygame.display.update()
+            pygame.display.update()  # updates the screen
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    sys.exit()
+                    sys.exit()  # ends program when you close game
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    posx = event.pos[0]
-                    posy = event.pos[1]
+                    posx = event.pos[0]  # x position of mouse click
+                    posy = event.pos[1]  # y position of mouse click
 
-                    col = int(math.floor(posx/square_size))
-                    row = int(math.floor(posy/square_size))
+                    col = int(math.floor(posx / square_size))
+                    row = int(math.floor(posy / square_size))
 
-                    if row < 1:
-                        print("Illegal")
+                    # makes sure that you clicked on a circle
+                    if row < 1 or validBoard[col][row - 1] != 1:
+                        print("Illegal move")
 
                     else:
-                        if validBoard[col][row - 1] == 1:
-                            print("You clicked legally")
-                        else:
-                            print("Illegal")
+                        if p1.placedPieces < 9 or p2.placedPieces < 9:
+                            if turnToggle == 1:
+                                drop_piece(board, row - 1, col, 1)
+                                turnToggle = 2
+                                if p1.color == "white":
+                                    p1.placedPieces += 1
+                                else:
+                                    p2.placedPieces += 1
+                            else:
+                                drop_piece(board, row - 1, col, 2)
+                                turnToggle = 1
+                                if p1.color == "black":
+                                    p1.placedPieces += 1
+                                else:
+                                    p2.placedPieces += 1
 
-
+                draw_board(board, validBoard)
+                pygame.display.update()
 
                 # begin the game turns in a loop
