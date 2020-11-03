@@ -166,6 +166,9 @@ def testMills(board):
 def drop_piece(board, row, col, piece):
     board[row][col] = piece
 
+def remove_piece(board, row, col):
+    board[row][col] = 0
+
 
 # phase 1: players place their pieces on the board
 # def placementStage(white, black, board, validBoard):
@@ -339,7 +342,15 @@ if playing:
                     if row < 1 or validBoard[col][row - 1] != 1:
                         print("Illegal move in stage 2")
                     else:
-                        placingBool = True
+                        if turnToggle == 1:
+                            if board[row-1][col] == 1:  # check if it is the opposing piece
+                                remove_piece(board, row - 1, col)
+                                placingBool = True
+                        else:
+                            if board[row-1][col] == 2:  # check if it is the opposing piece
+                                remove_piece(board, row - 1, col)
+                                placingBool = True
+
 
                 draw_board(board, validBoard)
                 pygame.display.update()
