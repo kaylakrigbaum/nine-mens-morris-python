@@ -278,7 +278,8 @@ if playing:
 
     # randomize turn
     playerTurn = selectPlayerTurn()
-    turnToggle = 1 # this is used to toggle between white and black
+    placingBool = True  # bool used to determine whether a click is to place a piece or remove a piece
+    turnToggle = 1  # this is used to toggle between white and black
     if playerTurn == 1:
         p1.color = "white"
         p2.color = "black"
@@ -294,7 +295,7 @@ if playing:
                 if event.type == pygame.QUIT:
                     sys.exit()  # ends program when you close game
 
-                if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.type == pygame.MOUSEBUTTONDOWN and placingBool is True:
                     posx = event.pos[0]  # x position of mouse click
                     posy = event.pos[1]  # y position of mouse click
 
@@ -315,7 +316,8 @@ if playing:
                                     p1.placedPieces += 1
                                 else:
                                     p2.placedPieces += 1
-                                checkForMill(board, "white")
+                                if checkForMill(board, "white"):
+                                    placingBool = False
                             else:
                                 drop_piece(board, row - 1, col, 2)
                                 turnToggle = 1
@@ -323,7 +325,21 @@ if playing:
                                     p1.placedPieces += 1
                                 else:
                                     p2.placedPieces += 1
-                                checkForMill(board, "black")
+                                if checkForMill(board, "black"):
+                                    placingBool = False
+
+                elif event.type == pygame.MOUSEBUTTONDOWN and placingBool is not True:
+                    posx = event.pos[0]  # x position of mouse click
+                    posy = event.pos[1]  # y position of mouse click
+
+                    col = int(math.floor(posx / square_size))
+                    row = int(math.floor(posy / square_size))
+
+                    # makes sure that you clicked on a circle
+                    if row < 1 or validBoard[col][row - 1] != 1:
+                        print("Illegal move in stage 2")
+                    else:
+                        placingBool = True
 
                 draw_board(board, validBoard)
                 pygame.display.update()
