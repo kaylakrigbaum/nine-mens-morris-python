@@ -38,7 +38,8 @@ def selectPlayerTurn():
 
 # check for any mills
 def checkForMill(board, currentPlayer):
-    #creating a text surface that will display in pygame who has created a mill.
+    # creating a text surface that will display in pygame who has created a mill.
+    screen.fill((255, 0, 0))
     textsurface = myfont.render(currentPlayer.upper() + " HAS CREATED A MILL", False, (0, 0, 0))
 
     # top horizontal
