@@ -314,7 +314,7 @@ if playing:
                     row = int(math.floor(posy / square_size))
 
                     # makes sure that you clicked on a circle
-                    if row < 1 or validBoard[col][row - 1] != 1:
+                    if row < 1 or validBoard[col][row - 1] != 1 or board[row - 1][col] == 1 or board[row - 1][col] == 2:
                         print("Illegal move")
 
                     else:
