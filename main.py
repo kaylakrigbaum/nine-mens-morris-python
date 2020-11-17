@@ -452,6 +452,10 @@ if playing:
 
                         # stage 2
                         elif p1.pieceCount > 2 and p2.pieceCount > 2:
+                            screen.fill((255, 0, 0))
+                            myfont = pygame.font.SysFont('Comic Sans MS', 30)
+                            textsurfaceStage2 = myfont.render("Stage two has begun move pieces to adjacent spot  ",False, (0, 0, 0))
+                            screen.blit(textsurfaceStage2, (0, 5))
                             adjacent_nodes = check_adjacent(row - 1, col)
                             shiftingBool = True
 
