@@ -454,6 +454,7 @@ if playing:
                         elif p1.pieceCount > 2 and p2.pieceCount > 2:
                             adjacent_nodes = check_adjacent(row - 1, col)
                             shiftingBool = True
+
                         else:
                             print("Game over")
 
@@ -488,6 +489,21 @@ if playing:
                     # makes sure that you clicked on a circle
                     if row < 1 or validBoard[newRow - 1][newCol] != 1 or board[row - 1][col] != turnToggle:
                         print("Illegal move in stage 2")
+
+                    elif p1.pieceCount == 3 or p2.pieceCount == 3:
+                        current_node = (row - 1, col)
+                        next_node = (newRow - 1, newCol)
+                        if board[newRow - 1][newCol] == 0:  # check if it is the opposing piece
+                            board[newRow - 1][newCol] = turnToggle
+                            board[row - 1][col] = 0
+                        if turnToggle == 1:
+                            if checkForMill(board, "white"):
+                                placingBool = False
+                            turnToggle = 2
+                        else:
+                            if checkForMill(board, "black"):
+                                placingBool = False
+                            turnToggle = 1
                     else:
                         current_node = (row - 1, col)
                         next_node = (newRow - 1, newCol)
@@ -503,6 +519,7 @@ if playing:
                                 placingBool = False
                             turnToggle = 1
                     shiftingBool = False
+
 
                 draw_board(board, validBoard)
                 pygame.display.update()
