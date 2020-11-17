@@ -178,43 +178,7 @@ def checkForMill(board, currentPlayer):
         activatedMills.insert(0,([(0, 6), (3, 6), (6, 6)]))
         return True
 
-    if board[0][0] == board[1][1] and board[0][0] == board[2][2] and board[0][0] != 0 and ([(0, 0), (1, 1), (2, 2)]) not in activatedMills:
-        screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0,([(0, 0), (1, 1), (2, 2)]))
-        return True
-
-    if board[6][0] == board[5][1] and board[6][0] == board[4][2] and board[6][0] != 0 and ([(6, 0), (5, 1), (4, 2)]) not in activatedMills:
-        screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0,([(6, 0), (5, 1), (4, 2)]))
-        return True
-
-    if board[0][6] == board[1][5] and board[0][6] == board[2][4] and board[0][6] != 0 and ([(0, 6), (1, 5), (2, 4)]) not in activatedMills:
-        screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0,([(0, 6), (1, 5), (2, 4)]))
-        return True
-
-    if board[6][6] == board[5][5] and board[6][6] == board[4][4] and board[6][6] != 0 and ([(6, 6), (5, 5), (4, 4)]) not in activatedMills:
-        screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0,([(6, 6), (5, 5), (4, 4)]))
-        return True
-
     return False
-
-
-# output the current board
-def displayBoard(board, validBoard, rows, cols):
-    for i in range(rows):
-        print(i, end="")
-        print("  ", end="")
-        for j in range(cols):
-            if validBoard[i][j] == 1:
-                print(board[i][j], end="")
-            print("   ", end="")
-        print("\n")
-
-    print("  a  b  c  d  e  f  g\n\n", end="")
-    return
-
 
 # test board creation
 def testBoardCreation(board, size):
