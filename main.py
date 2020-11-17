@@ -6,29 +6,78 @@ import math
 BLUE = (0, 0, 255)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+SLATE = (112, 128, 144)
+DARKGREY = (169, 169, 169)
 
 # Using the systems font for pygame display
 pygame.font.init()
-myfont = pygame.font.SysFont('Comic Sans MS', 30)
+#myfont = pygame.font.SysFont('Comic Sans MS', 30)
 
 activatedMills = []
 
 
 # menu
 def menu():
-    print('Would you like to begin the game?')
-    while True:
-        try:
-            choice = str(input('Enter Y or N ==> ')).lower()
-            if (choice != 'y') and (choice != 'n'):
-                raise ValueError
-            break
-        except ValueError:
-            print('Please enter a single Y or N character')
+    running = True
+    while running:
+        pygame.init() #initializing pygame stuff
 
-    if choice == 'y':
-        return True
-    return False
+        #storing the coords of our mouse location as a tuple
+        mouse = pygame.mouse.get_pos()
+
+        res = (700,800) #setting the resolution of our game screen
+        screen = pygame.display.set_mode(res)
+
+        width = screen.get_width()
+        height = screen.get_height()
+
+        screen.fill(WHITE)
+        #gathering pygame event information
+        for event in pygame.event.get():
+
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                return False
+            #if the user clicks on the quit, pygame exits, else if they click play the game board populates
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if width/2 - 50 <= mouse[0] <= width/2 + 90 and height/2 + 240 <= mouse[1] <= height/2+ 280: #140 and 40
+                    pygame.quit()
+                    return False
+                elif width / 2 - 60 <= mouse[0] <= width / 2 + 120 and height / 2 <= mouse[1] <= height / 2 + 50:
+                    return True
+
+
+        #picking the font that we want to use for the title of the game
+        myfont = pygame.font.SysFont('Comic Sans MS', 84)
+        mainTextSurface = myfont.render("Nine Mens Morris", False, BLACK)
+        textRect = mainTextSurface.get_rect(center=(width/2, height/2 - 140))
+        screen.blit(mainTextSurface,textRect)
+
+        #creating the button font for all the smaller buttons
+        buttonFont = pygame.font.SysFont('Comic Sans MS', 35)
+        quitText = buttonFont.render("Quit", False, BLACK)
+
+        #changing the shading in case user hovers over button..else statement creates the solid color when user isn't hovering over
+        if width/2 - 50 <= mouse[0] <= width/2 + 90 and height/2 + 240 <= mouse[1] <= height/2 + 280:
+            pygame.draw.rect(screen, SLATE, [width/2 - 50, height/2 + 250, 140, 40])
+        else:
+            pygame.draw.rect(screen, DARKGREY, [width/2 - 50, height/2 + 250, 140, 40])
+
+        screen.blit(quitText, (width/2 - 25, height/2 + 245)) #displaying the text
+
+        #rendering text for the "Play Game" button
+        playText = buttonFont.render("Play Game", False, BLACK)
+
+        #changing the shading based on mouse movement.
+        if width/2 - 60 <= mouse[0] <= width/2+120 and height/2 <= mouse[1] <= height/2+50:
+            pygame.draw.rect(screen, SLATE, [width/2 - 60, height/2, 180, 50])
+        else:
+            pygame.draw.rect(screen, DARKGREY, [width/2 - 60, height/2, 180, 50])
+
+        screen.blit(playText, (width/2 - 50, height/2 + 0)) #displaying the text
+
+        pygame.display.set_caption("Main Menu")
+        pygame.display.update()
 
 
 # randomly select player turn
@@ -38,6 +87,8 @@ def selectPlayerTurn():
 
 # check for any mills
 def checkForMill(board, currentPlayer):
+    myfont = pygame.font.SysFont('Comic Sans MS', 30)
+
     # creating a text surface that will display in pygame who has created a mill.
     screen.fill((255, 0, 0))
     textsurface = myfont.render(currentPlayer.upper() + " HAS CREATED A MILL", False, (0, 0, 0))
