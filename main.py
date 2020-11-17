@@ -47,6 +47,9 @@ def checkForMill(board, currentPlayer):
         screen.blit(textsurface, (0,0)) # display who created the mill.
         activatedMills.insert(0,([(0, 0), (0, 3), (0, 6)]))
         return True
+    else:
+        if ([(0, 0), (0, 3), (0, 6)]) in activatedMills:
+            activatedMills.remove(([(0, 0), (0, 3), (0, 6)]))
     # left vertical
     if board[1][1] == board[1][3] and board[1][1] == board[1][5] and board[1][1] != 0 and ([(1, 1), (1, 3), (1, 5)]) not in activatedMills:
         screen.blit(textsurface, (0, 0))  # display who created the mill.
@@ -177,6 +180,55 @@ def drop_piece(board, row, col, piece):
 def remove_piece(board, row, col):
     board[row][col] = 0
 
+# this function checks the following:
+# 1. Identify adjacent nodes
+
+#0: [1, 0, 0, 1, 0, 0, 1],
+#1: [0, 1, 0, 1, 0, 1, 0],
+#2: [0, 0, 1, 1, 1, 0, 0],
+#3: [1, 1, 1, 0, 1, 1, 1],
+#4: [0, 0, 1, 1, 1, 0, 0],
+#5: [0, 1, 0, 1, 0, 1, 0],
+#6: [1, 0, 0, 1, 0, 0, 1]
+#    0  1  2  3  4  5  6
+def check_adjacent(curr_row, curr_col):
+
+    adjacencies = {}
+    adjacencies[(0, 0)] = [(3, 0), (0, 3)]
+    adjacencies[(3, 0)] = [(0, 0), (6, 0), (3, 1)]
+    adjacencies[(6, 0)] = [(3, 0), (6, 3)]
+
+    adjacencies[(1, 1)] = [(3, 1), (1, 3)]
+    adjacencies[(3, 1)] = [(3, 0), (3, 2), (1, 1), (5, 1)]
+    adjacencies[(5, 1)] = [(3, 1), (5, 3)]
+
+    adjacencies[(2, 2)] = [(2, 3), (3, 2)]
+    adjacencies[(3, 2)] = [(2, 2), (4, 2), (3, 1)]
+    adjacencies[(0, 3)] = [(0, 0), (0, 6), (1, 3)]
+
+    adjacencies[(1, 3)] = [(0, 3), (2, 3), (1, 1), (1, 5)]
+    adjacencies[(2, 3)] = [(2, 2), (2, 4), (1, 3)]
+    adjacencies[(4, 3)] = [(4, 2), (4, 4), (5, 3)]
+
+    adjacencies[(5, 3)] = [(4, 3), (6, 3), (5, 1), (5,5)]
+    adjacencies[(6, 3)] = [(5, 3), (6, 0), (6, 6)]
+    adjacencies[(2, 4)] = [(2, 3), (3, 4)]
+
+    adjacencies[(3, 4)] = [(2, 4), (4, 4), (3, 5)]
+    adjacencies[(4, 4)] = [(3, 4), (4, 3)]
+    adjacencies[(1, 5)] = [(3, 5), (1, 3)]
+
+    adjacencies[(3, 5)] = [(1, 5), (5, 5), (3, 4), (3, 6)]
+    adjacencies[(5, 5)] = [(3, 5), (5, 3)]
+    adjacencies[(0, 6)] = [(0, 3), (3, 6)]
+
+    adjacencies[(3, 6)] = [(0, 6), (3, 5), (6, 6)]
+    adjacencies[(6, 6)] = [(3, 6), (6, 3)]
+    adjacencies[(4, 2)] = [(3, 2), (4, 3)]
+
+    return adjacencies[(curr_row, curr_col)]
+
+
 
 # phase 1: players place their pieces on the board
 # def placementStage(white, black, board, validBoard):
@@ -290,6 +342,7 @@ if playing:
     # randomize turn
     playerTurn = selectPlayerTurn()
     placingBool = True  # bool used to determine whether a click is to place a piece or remove a piece
+    shiftingBool = False # bool used to determine whether user is shifting a piece
     turnToggle = 1  # this is used to toggle between white and black
     if playerTurn == 1:
         p1.color = "white"
@@ -306,7 +359,7 @@ if playing:
                 if event.type == pygame.QUIT:
                     sys.exit()  # ends program when you close game
 
-                if event.type == pygame.MOUSEBUTTONDOWN and placingBool is True:
+                if event.type == pygame.MOUSEBUTTONDOWN and placingBool is True and shiftingBool is not True:
                     posx = event.pos[0]  # x position of mouse click
                     posy = event.pos[1]  # y position of mouse click
 
@@ -314,7 +367,7 @@ if playing:
                     row = int(math.floor(posy / square_size))
 
                     # makes sure that you clicked on a circle
-                    if row < 1 or validBoard[col][row - 1] != 1:
+                    if row < 1 or validBoard[row - 1][col] != 1:
                         print("Illegal move")
 
                     else:
@@ -328,8 +381,8 @@ if playing:
                                     p1.placedPieces += 1
                                 else:
                                     p2.placedPieces += 1
-                                if checkForMill(board, "white"): #if there is a mill allow for removal of piece
-                                    placingBool = False #setting this to allow for removal instead of placing
+                                if checkForMill(board, "white"): # if there is a mill allow for removal of piece
+                                    placingBool = False # setting this to allow for removal instead of placing
 
                             else:
                                 drop_piece(board, row - 1, col, 2)
@@ -341,6 +394,12 @@ if playing:
                                 if checkForMill(board, "black"):
                                     placingBool = False
 
+                        # stage 2
+                        elif p1.placedPieces > 3 and p2.placedPieces > 3:
+                            adjacent_nodes = check_adjacent(row - 1, col)
+                            shiftingBool = True
+                        else:
+                            print("Game over")
 
                 elif event.type == pygame.MOUSEBUTTONDOWN and placingBool is not True:
                     posx = event.pos[0]  # x position of mouse click
@@ -350,17 +409,42 @@ if playing:
                     row = int(math.floor(posy / square_size))
 
                     # makes sure that you clicked on a circle
-                    if row < 1 or validBoard[col][row - 1] != 1:
+                    if row < 1 or validBoard[row - 1][col] != 1:
                         print("Illegal move in stage 2")
                     else:
                         if turnToggle == 1:
                             if board[row - 1][col] == 1:  # check if it is the opposing piece
                                 remove_piece(board, row - 1, col)
-                                placingBool = True
                         else:
                             if board[row - 1][col] == 2:  # check if it is the opposing piece
                                 remove_piece(board, row - 1, col)
-                                placingBool = True
+                        placingBool = True
+
+                elif event.type == pygame.MOUSEBUTTONDOWN and placingBool is True and shiftingBool is True:
+                    posx = event.pos[0]  # x position of mouse click
+                    posy = event.pos[1]  # y position of mouse click
+
+                    newCol = int(math.floor(posx / square_size))
+                    newRow = int(math.floor(posy / square_size))
+
+                    # makes sure that you clicked on a circle
+                    if row < 1 or validBoard[newRow - 1][newCol] != 1 or board[row - 1][col] != turnToggle:
+                        print("Illegal move in stage 2")
+                    else:
+                        current_node = (row - 1, col)
+                        next_node = (newRow - 1, newCol)
+                        if board[newRow - 1][newCol] == 0 and next_node in adjacent_nodes:  # check if it is the opposing piece
+                            board[newRow - 1][newCol] = turnToggle
+                            board[row - 1][col] = 0
+                        if turnToggle == 1:
+                            if checkForMill(board, "white"):
+                                placingBool = False
+                            turnToggle = 2
+                        else:
+                            if checkForMill(board, "black"):
+                                placingBool = False
+                            turnToggle = 1
+                    shiftingBool = False
 
                 draw_board(board, validBoard)
                 pygame.display.update()
