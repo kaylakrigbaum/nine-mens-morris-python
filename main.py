@@ -98,9 +98,7 @@ def checkForMill(board, currentPlayer):
         screen.blit(textsurface, (0,0)) # display who created the mill.
         activatedMills.insert(0,([(0, 0), (0, 3), (0, 6)]))
         return True
-    else:
-        if ([(0, 0), (0, 3), (0, 6)]) in activatedMills:
-            activatedMills.remove(([(0, 0), (0, 3), (0, 6)]))
+
     # left vertical
     if board[1][1] == board[1][3] and board[1][1] == board[1][5] and board[1][1] != 0 and ([(1, 1), (1, 3), (1, 5)]) not in activatedMills:
         screen.blit(textsurface, (0, 0))  # display who created the mill.
@@ -141,6 +139,9 @@ def checkForMill(board, currentPlayer):
         screen.blit(textsurface, (0, 0))  # display who created the mill.
         activatedMills.insert(0,([(0, 0), (3, 0), (6, 0)]))
         return True
+    else:
+        if ([(0, 0), (3, 0), (6, 0)]) in activatedMills:
+            activatedMills.remove(([(0, 0), (3, 0), (6, 0)]))
 
     if board[1][1] == board[3][1] and board[1][1] == board[5][1] and board[1][1] != 0 and ([(1, 1), (3, 1), (5, 1)]) not in activatedMills:
         screen.blit(textsurface, (0, 0))  # display who created the mill.
@@ -430,8 +431,10 @@ if playing:
                                 turnToggle = 2
                                 if p1.color == "white":
                                     p1.placedPieces += 1
+                                    p1.pieceCount += 1
                                 else:
                                     p2.placedPieces += 1
+                                    p2.pieceCount += 1
                                 if checkForMill(board, "white"): # if there is a mill allow for removal of piece
                                     placingBool = False # setting this to allow for removal instead of placing
 
@@ -440,13 +443,15 @@ if playing:
                                 turnToggle = 1
                                 if p1.color == "black":
                                     p1.placedPieces += 1
+                                    p1.pieceCount += 1
                                 else:
                                     p2.placedPieces += 1
+                                    p2.pieceCount += 1
                                 if checkForMill(board, "black"):
                                     placingBool = False
 
                         # stage 2
-                        elif p1.placedPieces > 3 and p2.placedPieces > 3:
+                        elif p1.pieceCount > 2 and p2.pieceCount > 2:
                             adjacent_nodes = check_adjacent(row - 1, col)
                             shiftingBool = True
                         else:
@@ -466,9 +471,11 @@ if playing:
                         if turnToggle == 1:
                             if board[row - 1][col] == 1:  # check if it is the opposing piece
                                 remove_piece(board, row - 1, col)
+                                p1.pieceCount -= 1
                         else:
                             if board[row - 1][col] == 2:  # check if it is the opposing piece
                                 remove_piece(board, row - 1, col)
+                                p2.pieceCount -= 1
                         placingBool = True
 
                 elif event.type == pygame.MOUSEBUTTONDOWN and placingBool is True and shiftingBool is True:
