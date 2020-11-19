@@ -14,6 +14,7 @@ pygame.font.init()
 # myfont = pygame.font.SysFont('Comic Sans MS', 30)
 
 activatedMills = []
+totalMills = []
 
 
 # menu
@@ -95,147 +96,147 @@ def checkForMill(board, currentPlayer):
     textsurface = myfont.render(currentPlayer.upper() + " HAS CREATED A MILL", False, (0, 0, 0))
 
     # top horizontal
-    if board[0][0] == board[0][3] and board[0][0] == board[0][6] and board[0][0] != 0 and (
-            [(0, 0), (0, 3), (0, 6)]) not in activatedMills:
-        screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0, ([(0, 0), (0, 3), (0, 6)]))
-        return True
+    if board[0][0] == board[0][3] and board[0][0] == board[0][6] and board[0][0] != 0:
+        if ([(0, 0), (0, 3), (0, 6)]) not in activatedMills:
+            screen.blit(textsurface, (0, 0))  # display who created the mill.
+            activatedMills.insert(0, ([(0, 0), (0, 3), (0, 6)]))
+            return True
     else:
         if ([(0, 0), (0, 3), (0, 6)]) in activatedMills:
             activatedMills.remove(([(0, 0), (0, 3), (0, 6)]))
 
     # left vertical
-    if board[1][1] == board[1][3] and board[1][1] == board[1][5] and board[1][1] != 0 and (
-            [(1, 1), (1, 3), (1, 5)]) not in activatedMills:
-        screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0, ([(1, 1), (1, 3), (1, 5)]))
-        return True
+    if board[1][1] == board[1][3] and board[1][1] == board[1][5] and board[1][1] != 0:
+        if ([(1, 1), (1, 3), (1, 5)]) not in activatedMills:
+            screen.blit(textsurface, (0, 0))  # display who created the mill.
+            activatedMills.insert(0, ([(1, 1), (1, 3), (1, 5)]))
+            return True
     else:
         if ([(1, 1), (1, 3), (1, 5)]) in activatedMills:
             activatedMills.remove(([(1, 1), (1, 3), (1, 5)]))
     # bottom horizontal
-    if board[2][2] == board[2][3] and board[2][2] == board[2][4] and board[2][2] != 0 and (
-            [(2, 2), (2, 3), (2, 4)]) not in activatedMills:
-        screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0, ([(2, 2), (2, 3), (2, 4)]))
-        return True
+    if board[2][2] == board[2][3] and board[2][2] == board[2][4] and board[2][2] != 0:
+        if ([(2, 2), (2, 3), (2, 4)]) not in activatedMills:
+            screen.blit(textsurface, (0, 0))  # display who created the mill.
+            activatedMills.insert(0, ([(2, 2), (2, 3), (2, 4)]))
+            return True
     else:
         if ([(2, 2), (2, 3), (2, 4)]) in activatedMills:
             activatedMills.remove(([(2, 2), (2, 3), (2, 4)]))
 
-    if board[3][0] == board[3][1] and board[3][0] == board[3][2] and board[3][0] != 0 and (
-            [(3, 0), (3, 1), (3, 2)]) not in activatedMills:
-        screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0, ([(3, 0), (3, 1), (3, 2)]))
-        return True
+    if board[3][0] == board[3][1] and board[3][0] == board[3][2] and board[3][0] != 0:
+        if ([(3, 0), (3, 1), (3, 2)]) not in activatedMills:
+            screen.blit(textsurface, (0, 0))  # display who created the mill.
+            activatedMills.insert(0, ([(3, 0), (3, 1), (3, 2)]))
+            return True
     else:
         if ([(3, 0), (3, 1), (3, 2)]) in activatedMills:
             activatedMills.remove(([(3, 0), (3, 1), (3, 2)]))
 
-    if board[3][4] == board[3][5] and board[3][4] == board[3][6] and board[3][4] != 0 and (
-            [(3, 4), (3, 5), (3, 6)]) not in activatedMills:
-        screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0, ([(3, 4), (3, 5), (3, 6)]))
-        return True
+    if board[3][4] == board[3][5] and board[3][4] == board[3][6] and board[3][4] != 0:
+        if ([(3, 4), (3, 5), (3, 6)]) not in activatedMills:
+            screen.blit(textsurface, (0, 0))  # display who created the mill.
+            activatedMills.insert(0, ([(3, 4), (3, 5), (3, 6)]))
+            return True
     else:
         if ([(3, 4), (3, 5), (3, 6)]) in activatedMills:
             activatedMills.remove(([(3, 4), (3, 5), (3, 6)]))
 
-    if board[4][2] == board[4][3] and board[4][2] == board[4][4] and board[4][2] != 0 and (
-            [(4, 2), (4, 3), (4, 4)]) not in activatedMills:
-        screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0, ([(4, 2), (4, 3), (4, 4)]))
-        return True
+    if board[4][2] == board[4][3] and board[4][2] == board[4][4] and board[4][2] != 0:
+            if ([(4, 2), (4, 3), (4, 4)]) not in activatedMills:
+                screen.blit(textsurface, (0, 0))  # display who created the mill.
+                activatedMills.insert(0, ([(4, 2), (4, 3), (4, 4)]))
+                return True
     else:
         if ([(4, 2), (4, 3), (4, 4)]) in activatedMills:
             activatedMills.remove(([(4, 2), (4, 3), (4, 4)]))
 
-    if board[5][1] == board[5][3] and board[5][1] == board[5][5] and board[5][1] != 0 and (
-            [(5, 1), (5, 3), (5, 5)]) not in activatedMills:
-        screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0, ([(5, 1), (5, 3), (5, 5)]))
-        return True
+    if board[5][1] == board[5][3] and board[5][1] == board[5][5] and board[5][1] != 0:
+        if ([(5, 1), (5, 3), (5, 5)]) not in activatedMills:
+            screen.blit(textsurface, (0, 0))  # display who created the mill.
+            activatedMills.insert(0, ([(5, 1), (5, 3), (5, 5)]))
+            return True
     else:
         if ([(5, 1), (5, 3), (5, 5)]) in activatedMills:
             activatedMills.remove(([(5, 1), (5, 3), (5, 5)]))
 
-    if board[6][0] == board[6][3] and board[6][0] == board[6][6] and board[6][0] != 0 and (
-            [(6, 0), (6, 3), (6, 6)]) not in activatedMills:
-        screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0, ([(6, 0), (6, 3), (6, 6)]))
-        return True
+    if board[6][0] == board[6][3] and board[6][0] == board[6][6] and board[6][0] != 0:
+        if ([(6, 0), (6, 3), (6, 6)]) not in activatedMills:
+            screen.blit(textsurface, (0, 0))  # display who created the mill.
+            activatedMills.insert(0, ([(6, 0), (6, 3), (6, 6)]))
+            return True
     else:
         if ([(6, 0), (6, 3), (6, 6)]) in activatedMills:
             activatedMills.remove(([(6, 0), (6, 3), (6, 6)]))
 
-    if board[0][0] == board[3][0] and board[0][0] == board[6][0] and board[0][0] != 0 and (
-            [(0, 0), (3, 0), (6, 0)]) not in activatedMills:
-        screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0, ([(0, 0), (3, 0), (6, 0)]))
-        return True
+    if board[0][0] == board[3][0] and board[0][0] == board[6][0] and board[0][0] != 0:
+        if ([(0, 0), (3, 0), (6, 0)]) not in activatedMills:
+            screen.blit(textsurface, (0, 0))  # display who created the mill.
+            activatedMills.insert(0, ([(0, 0), (3, 0), (6, 0)]))
+            return True
     else:
         if ([(0, 0), (3, 0), (6, 0)]) in activatedMills:
             activatedMills.remove(([(0, 0), (3, 0), (6, 0)]))
 
-    if board[1][1] == board[3][1] and board[1][1] == board[5][1] and board[1][1] != 0 and (
-            [(1, 1), (3, 1), (5, 1)]) not in activatedMills:
-        screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0, ([(1, 1), (3, 1), (5, 1)]))
-        return True
+    if board[1][1] == board[3][1] and board[1][1] == board[5][1] and board[1][1] != 0:
+        if ([(1, 1), (3, 1), (5, 1)]) not in activatedMills:
+            screen.blit(textsurface, (0, 0))  # display who created the mill.
+            activatedMills.insert(0, ([(1, 1), (3, 1), (5, 1)]))
+            return True
     else:
         if ([(1, 1), (3, 1), (5, 1)]) in activatedMills:
             activatedMills.remove(([(1, 1), (3, 1), (5, 1)]))
 
-    if board[2][2] == board[3][2] and board[2][2] == board[4][2] and board[2][2] != 0 and (
-            [(2, 2), (3, 2), (4, 2)]) not in activatedMills:
-        screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0, ([(2, 2), (3, 2), (4, 2)]))
-        return True
+    if board[2][2] == board[3][2] and board[2][2] == board[4][2] and board[2][2] != 0:
+        if ([(2, 2), (3, 2), (4, 2)]) not in activatedMills:
+            screen.blit(textsurface, (0, 0))  # display who created the mill.
+            activatedMills.insert(0, ([(2, 2), (3, 2), (4, 2)]))
+            return True
     else:
         if ([(2, 2), (3, 2), (4, 2)]) in activatedMills:
             activatedMills.remove(([(2, 2), (3, 2), (4, 2)]))
 
-    if board[0][3] == board[1][3] and board[0][3] == board[2][3] and board[0][3] != 0 and (
-            [(0, 3), (1, 3), (2, 3)]) not in activatedMills:
-        screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0, ([(0, 3), (1, 3), (2, 3)]))
-        return True
+    if board[0][3] == board[1][3] and board[0][3] == board[2][3] and board[0][3] != 0:
+        if ([(0, 3), (1, 3), (2, 3)]) not in activatedMills:
+            screen.blit(textsurface, (0, 0))  # display who created the mill.
+            activatedMills.insert(0, ([(0, 3), (1, 3), (2, 3)]))
+            return True
     else:
         if ([(0, 3), (1, 3), (2, 3)]) in activatedMills:
             activatedMills.remove(([(0, 3), (1, 3), (2, 3)]))
 
-    if board[4][3] == board[5][3] and board[4][3] == board[6][3] and board[4][3] != 0 and (
-            [(4, 3), (5, 3), (6, 3)]) not in activatedMills:
-        screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0, ([(4, 3), (5, 3), (6, 3)]))
-        return True
+    if board[4][3] == board[5][3] and board[4][3] == board[6][3] and board[4][3] != 0:
+        if ([(4, 3), (5, 3), (6, 3)]) not in activatedMills:
+            screen.blit(textsurface, (0, 0))  # display who created the mill.
+            activatedMills.insert(0, ([(4, 3), (5, 3), (6, 3)]))
+            return True
     else:
         if ([(4, 3), (5, 3), (6, 3)]) in activatedMills:
             activatedMills.remove(([(4, 3), (5, 3), (6, 3)]))
 
-    if board[2][4] == board[3][4] and board[2][4] == board[4][4] and board[2][4] != 0 and (
-            [(2, 4), (3, 4), (4, 4)]) not in activatedMills:
-        screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0, ([(2, 4), (3, 4), (4, 4)]))
-        return True
+    if board[2][4] == board[3][4] and board[2][4] == board[4][4] and board[2][4] != 0:
+        if ([(2, 4), (3, 4), (4, 4)]) not in activatedMills:
+            screen.blit(textsurface, (0, 0))  # display who created the mill.
+            activatedMills.insert(0, ([(2, 4), (3, 4), (4, 4)]))
+            return True
     else:
         if ([(2, 4), (3, 4), (4, 4)]) in activatedMills:
             activatedMills.remove(([(2, 4), (3, 4), (4, 4)]))
 
-    if board[1][5] == board[3][5] and board[1][5] == board[5][5] and board[1][5] != 0 and (
-            [(1, 5), (3, 5), (5, 5)]) not in activatedMills:
-        screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0, ([(1, 5), (3, 5), (5, 5)]))
-        return True
+    if board[1][5] == board[3][5] and board[1][5] == board[5][5] and board[1][5] != 0:
+        if ([(1, 5), (3, 5), (5, 5)]) not in activatedMills:
+            screen.blit(textsurface, (0, 0))  # display who created the mill.
+            activatedMills.insert(0, ([(1, 5), (3, 5), (5, 5)]))
+            return True
     else:
         if ([(1, 5), (3, 5), (5, 5)]) in activatedMills:
             activatedMills.remove(([(1, 5), (3, 5), (5, 5)]))
 
-    if board[0][6] == board[3][6] and board[0][6] == board[6][6] and board[0][6] != 0 and (
-            [(0, 6), (3, 6), (6, 6)]) not in activatedMills:
-        screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0, ([(0, 6), (3, 6), (6, 6)]))
-        return True
+    if board[0][6] == board[3][6] and board[0][6] == board[6][6] and board[0][6] != 0:
+        if ([(0, 6), (3, 6), (6, 6)]) not in activatedMills:
+            screen.blit(textsurface, (0, 0))  # display who created the mill.
+            activatedMills.insert(0, ([(0, 6), (3, 6), (6, 6)]))
+            return True
     else:
         if ([(0, 6), (3, 6), (6, 6)]) in activatedMills:
             activatedMills.remove(([(0, 6), (3, 6), (6, 6)]))
@@ -478,28 +479,34 @@ if playing:
                         # placement stage
                         if p1.placedPieces < 9 or p2.placedPieces < 9:
                             if turnToggle == 1:
-                                drop_piece(board, row - 1, col, 1)
-                                turnToggle = 2
-                                if p1.color == "white":
-                                    p1.placedPieces += 1
-                                    p1.pieceCount += 1
+                                if board[row - 1][col] == 0:
+                                    drop_piece(board, row - 1, col, 1)
+                                    turnToggle = 2
+                                    if p1.color == "white":
+                                        p1.placedPieces += 1
+                                        p1.pieceCount += 1
+                                    else:
+                                        p2.placedPieces += 1
+                                        p2.pieceCount += 1
+                                    if checkForMill(board, "white"):  # if there is a mill allow for removal of piece
+                                        placingBool = False  # setting this to allow for removal instead of placing
                                 else:
-                                    p2.placedPieces += 1
-                                    p2.pieceCount += 1
-                                if checkForMill(board, "white"):  # if there is a mill allow for removal of piece
-                                    placingBool = False  # setting this to allow for removal instead of placing
+                                    print("Choose an empty space")
 
                             else:
-                                drop_piece(board, row - 1, col, 2)
-                                turnToggle = 1
-                                if p1.color == "black":
-                                    p1.placedPieces += 1
-                                    p1.pieceCount += 1
+                                if board[row - 1][col] == 0:
+                                    drop_piece(board, row - 1, col, 2)
+                                    turnToggle = 1
+                                    if p1.color == "black":
+                                        p1.placedPieces += 1
+                                        p1.pieceCount += 1
+                                    else:
+                                        p2.placedPieces += 1
+                                        p2.pieceCount += 1
+                                    if checkForMill(board, "black"):
+                                        placingBool = False
                                 else:
-                                    p2.placedPieces += 1
-                                    p2.pieceCount += 1
-                                if checkForMill(board, "black"):
-                                    placingBool = False
+                                    print("Choose an empty space")
 
                         # stage 2
                         elif p1.pieceCount > 2 and p2.pieceCount > 2:
