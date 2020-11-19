@@ -11,7 +11,7 @@ DARKGREY = (169, 169, 169)
 
 # Using the systems font for pygame display
 pygame.font.init()
-#myfont = pygame.font.SysFont('Comic Sans MS', 30)
+# myfont = pygame.font.SysFont('Comic Sans MS', 30)
 
 activatedMills = []
 
@@ -20,61 +20,61 @@ activatedMills = []
 def menu():
     running = True
     while running:
-        pygame.init() #initializing pygame stuff
+        pygame.init()  # initializing pygame stuff
 
-        #storing the coords of our mouse location as a tuple
+        # storing the coords of our mouse location as a tuple
         mouse = pygame.mouse.get_pos()
 
-        res = (700,800) #setting the resolution of our game screen
+        res = (700, 800)  # setting the resolution of our game screen
         screen = pygame.display.set_mode(res)
 
         width = screen.get_width()
         height = screen.get_height()
 
         screen.fill(WHITE)
-        #gathering pygame event information
+        # gathering pygame event information
         for event in pygame.event.get():
 
             if event.type == pygame.QUIT:
                 pygame.quit()
                 return False
-            #if the user clicks on the quit, pygame exits, else if they click play the game board populates
+            # if the user clicks on the quit, pygame exits, else if they click play the game board populates
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if width/2 - 50 <= mouse[0] <= width/2 + 90 and height/2 + 240 <= mouse[1] <= height/2+ 280: #140 and 40
+                if width / 2 - 50 <= mouse[0] <= width / 2 + 90 and height / 2 + 240 <= mouse[
+                    1] <= height / 2 + 280:  # 140 and 40
                     pygame.quit()
                     return False
                 elif width / 2 - 60 <= mouse[0] <= width / 2 + 120 and height / 2 <= mouse[1] <= height / 2 + 50:
                     return True
 
-
-        #picking the font that we want to use for the title of the game
+        # picking the font that we want to use for the title of the game
         myfont = pygame.font.SysFont('Comic Sans MS', 84)
         mainTextSurface = myfont.render("Nine Mens Morris", False, BLACK)
-        textRect = mainTextSurface.get_rect(center=(width/2, height/2 - 140))
-        screen.blit(mainTextSurface,textRect)
+        textRect = mainTextSurface.get_rect(center=(width / 2, height / 2 - 140))
+        screen.blit(mainTextSurface, textRect)
 
-        #creating the button font for all the smaller buttons
+        # creating the button font for all the smaller buttons
         buttonFont = pygame.font.SysFont('Comic Sans MS', 35)
         quitText = buttonFont.render("Quit", False, BLACK)
 
-        #changing the shading in case user hovers over button..else statement creates the solid color when user isn't hovering over
-        if width/2 - 50 <= mouse[0] <= width/2 + 90 and height/2 + 240 <= mouse[1] <= height/2 + 280:
-            pygame.draw.rect(screen, SLATE, [width/2 - 50, height/2 + 250, 140, 40])
+        # changing the shading in case user hovers over button..else statement creates the solid color when user isn't hovering over
+        if width / 2 - 50 <= mouse[0] <= width / 2 + 90 and height / 2 + 240 <= mouse[1] <= height / 2 + 280:
+            pygame.draw.rect(screen, SLATE, [width / 2 - 50, height / 2 + 250, 140, 40])
         else:
-            pygame.draw.rect(screen, DARKGREY, [width/2 - 50, height/2 + 250, 140, 40])
+            pygame.draw.rect(screen, DARKGREY, [width / 2 - 50, height / 2 + 250, 140, 40])
 
-        screen.blit(quitText, (width/2 - 25, height/2 + 245)) #displaying the text
+        screen.blit(quitText, (width / 2 - 25, height / 2 + 245))  # displaying the text
 
-        #rendering text for the "Play Game" button
+        # rendering text for the "Play Game" button
         playText = buttonFont.render("Play Game", False, BLACK)
 
-        #changing the shading based on mouse movement.
-        if width/2 - 60 <= mouse[0] <= width/2+120 and height/2 <= mouse[1] <= height/2+50:
-            pygame.draw.rect(screen, SLATE, [width/2 - 60, height/2, 180, 50])
+        # changing the shading based on mouse movement.
+        if width / 2 - 60 <= mouse[0] <= width / 2 + 120 and height / 2 <= mouse[1] <= height / 2 + 50:
+            pygame.draw.rect(screen, SLATE, [width / 2 - 60, height / 2, 180, 50])
         else:
-            pygame.draw.rect(screen, DARKGREY, [width/2 - 60, height/2, 180, 50])
+            pygame.draw.rect(screen, DARKGREY, [width / 2 - 60, height / 2, 180, 50])
 
-        screen.blit(playText, (width/2 - 50, height/2 + 0)) #displaying the text
+        screen.blit(playText, (width / 2 - 50, height / 2 + 0))  # displaying the text
 
         pygame.display.set_caption("Main Menu")
         pygame.display.update()
@@ -85,6 +85,7 @@ def selectPlayerTurn():
     turn = random.randint(1, 2)
     return turn
 
+
 # check for any mills
 def checkForMill(board, currentPlayer):
     myfont = pygame.font.SysFont('Comic Sans MS', 30)
@@ -94,91 +95,153 @@ def checkForMill(board, currentPlayer):
     textsurface = myfont.render(currentPlayer.upper() + " HAS CREATED A MILL", False, (0, 0, 0))
 
     # top horizontal
-    if board[0][0] == board[0][3] and board[0][0] == board[0][6] and board[0][0] != 0 and ([(0, 0), (0, 3), (0, 6)]) not in activatedMills:
-        screen.blit(textsurface, (0,0)) # display who created the mill.
-        activatedMills.insert(0,([(0, 0), (0, 3), (0, 6)]))
+    if board[0][0] == board[0][3] and board[0][0] == board[0][6] and board[0][0] != 0 and (
+            [(0, 0), (0, 3), (0, 6)]) not in activatedMills:
+        screen.blit(textsurface, (0, 0))  # display who created the mill.
+        activatedMills.insert(0, ([(0, 0), (0, 3), (0, 6)]))
         return True
+    else:
+        if ([(0, 0), (0, 3), (0, 6)]) in activatedMills:
+            activatedMills.remove(([(0, 0), (0, 3), (0, 6)]))
 
     # left vertical
-    if board[1][1] == board[1][3] and board[1][1] == board[1][5] and board[1][1] != 0 and ([(1, 1), (1, 3), (1, 5)]) not in activatedMills:
+    if board[1][1] == board[1][3] and board[1][1] == board[1][5] and board[1][1] != 0 and (
+            [(1, 1), (1, 3), (1, 5)]) not in activatedMills:
         screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0,([(1, 1), (1, 3), (1, 5)]))
+        activatedMills.insert(0, ([(1, 1), (1, 3), (1, 5)]))
         return True
+    else:
+        if ([(1, 1), (1, 3), (1, 5)]) in activatedMills:
+            activatedMills.remove(([(1, 1), (1, 3), (1, 5)]))
     # bottom horizontal
-    if board[2][2] == board[2][3] and board[2][2] == board[2][4] and board[2][2] != 0 and ([(2, 2), (2, 3), (2, 4)]) not in activatedMills:
+    if board[2][2] == board[2][3] and board[2][2] == board[2][4] and board[2][2] != 0 and (
+            [(2, 2), (2, 3), (2, 4)]) not in activatedMills:
         screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0,([(2, 2), (2, 3), (2, 4)]))
+        activatedMills.insert(0, ([(2, 2), (2, 3), (2, 4)]))
         return True
+    else:
+        if ([(2, 2), (2, 3), (2, 4)]) in activatedMills:
+            activatedMills.remove(([(2, 2), (2, 3), (2, 4)]))
 
-    if board[3][0] == board[3][1] and board[3][0] == board[3][2] and board[3][0] != 0 and ([(3, 0), (3, 1), (3, 2)]) not in activatedMills:
+    if board[3][0] == board[3][1] and board[3][0] == board[3][2] and board[3][0] != 0 and (
+            [(3, 0), (3, 1), (3, 2)]) not in activatedMills:
         screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0,([(3, 0), (3, 1), (3, 2)]))
+        activatedMills.insert(0, ([(3, 0), (3, 1), (3, 2)]))
         return True
+    else:
+        if ([(3, 0), (3, 1), (3, 2)]) in activatedMills:
+            activatedMills.remove(([(3, 0), (3, 1), (3, 2)]))
 
-    if board[3][4] == board[3][5] and board[3][4] == board[3][6] and board[3][4] != 0 and ([(3, 4), (3, 5), (3, 6)]) not in activatedMills:
+    if board[3][4] == board[3][5] and board[3][4] == board[3][6] and board[3][4] != 0 and (
+            [(3, 4), (3, 5), (3, 6)]) not in activatedMills:
         screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0,([(3, 4), (3, 5), (3, 6)]))
+        activatedMills.insert(0, ([(3, 4), (3, 5), (3, 6)]))
         return True
+    else:
+        if ([(3, 4), (3, 5), (3, 6)]) in activatedMills:
+            activatedMills.remove(([(3, 4), (3, 5), (3, 6)]))
 
-    if board[4][2] == board[4][3] and board[4][2] == board[4][4] and board[4][2] != 0 and ([(4, 2), (4, 3), (4, 4)]) not in activatedMills:
+    if board[4][2] == board[4][3] and board[4][2] == board[4][4] and board[4][2] != 0 and (
+            [(4, 2), (4, 3), (4, 4)]) not in activatedMills:
         screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0,([(4, 2), (4, 3), (4, 4)]))
+        activatedMills.insert(0, ([(4, 2), (4, 3), (4, 4)]))
         return True
+    else:
+        if ([(4, 2), (4, 3), (4, 4)]) in activatedMills:
+            activatedMills.remove(([(4, 2), (4, 3), (4, 4)]))
 
-    if board[5][1] == board[5][3] and board[5][1] == board[5][5] and board[5][1] != 0 and ([(5, 1), (5, 3), (5, 5)]) not in activatedMills:
+    if board[5][1] == board[5][3] and board[5][1] == board[5][5] and board[5][1] != 0 and (
+            [(5, 1), (5, 3), (5, 5)]) not in activatedMills:
         screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0,([(5, 1), (5, 3), (5, 5)]))
+        activatedMills.insert(0, ([(5, 1), (5, 3), (5, 5)]))
         return True
+    else:
+        if ([(5, 1), (5, 3), (5, 5)]) in activatedMills:
+            activatedMills.remove(([(5, 1), (5, 3), (5, 5)]))
 
-    if board[6][0] == board[6][3] and board[6][0] == board[6][6] and board[6][0] != 0 and ([(6, 0), (6, 3), (6, 6)]) not in activatedMills:
+    if board[6][0] == board[6][3] and board[6][0] == board[6][6] and board[6][0] != 0 and (
+            [(6, 0), (6, 3), (6, 6)]) not in activatedMills:
         screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0,([(6, 0), (6, 3), (6, 6)]))
+        activatedMills.insert(0, ([(6, 0), (6, 3), (6, 6)]))
         return True
+    else:
+        if ([(6, 0), (6, 3), (6, 6)]) in activatedMills:
+            activatedMills.remove(([(6, 0), (6, 3), (6, 6)]))
 
-    if board[0][0] == board[3][0] and board[0][0] == board[6][0] and board[0][0] != 0 and ([(0, 0), (3, 0), (6, 0)]) not in activatedMills:
+    if board[0][0] == board[3][0] and board[0][0] == board[6][0] and board[0][0] != 0 and (
+            [(0, 0), (3, 0), (6, 0)]) not in activatedMills:
         screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0,([(0, 0), (3, 0), (6, 0)]))
+        activatedMills.insert(0, ([(0, 0), (3, 0), (6, 0)]))
         return True
     else:
         if ([(0, 0), (3, 0), (6, 0)]) in activatedMills:
             activatedMills.remove(([(0, 0), (3, 0), (6, 0)]))
 
-    if board[1][1] == board[3][1] and board[1][1] == board[5][1] and board[1][1] != 0 and ([(1, 1), (3, 1), (5, 1)]) not in activatedMills:
+    if board[1][1] == board[3][1] and board[1][1] == board[5][1] and board[1][1] != 0 and (
+            [(1, 1), (3, 1), (5, 1)]) not in activatedMills:
         screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0,([(1, 1), (3, 1), (5, 1)]))
+        activatedMills.insert(0, ([(1, 1), (3, 1), (5, 1)]))
         return True
+    else:
+        if ([(1, 1), (3, 1), (5, 1)]) in activatedMills:
+            activatedMills.remove(([(1, 1), (3, 1), (5, 1)]))
 
-    if board[2][2] == board[3][2] and board[2][2] == board[4][2] and board[2][2] != 0 and ([(2, 2), (3, 2), (4, 2)]) not in activatedMills:
+    if board[2][2] == board[3][2] and board[2][2] == board[4][2] and board[2][2] != 0 and (
+            [(2, 2), (3, 2), (4, 2)]) not in activatedMills:
         screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0,([(2, 2), (3, 2), (4, 2)]))
+        activatedMills.insert(0, ([(2, 2), (3, 2), (4, 2)]))
         return True
+    else:
+        if ([(2, 2), (3, 2), (4, 2)]) in activatedMills:
+            activatedMills.remove(([(2, 2), (3, 2), (4, 2)]))
 
-    if board[0][3] == board[1][3] and board[0][3] == board[2][3] and board[0][3] != 0 and ([(0, 3), (1, 3), (2, 3)]) not in activatedMills:
+    if board[0][3] == board[1][3] and board[0][3] == board[2][3] and board[0][3] != 0 and (
+            [(0, 3), (1, 3), (2, 3)]) not in activatedMills:
         screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0,([(0, 3), (1, 3), (2, 3)]))
+        activatedMills.insert(0, ([(0, 3), (1, 3), (2, 3)]))
         return True
+    else:
+        if ([(0, 3), (1, 3), (2, 3)]) in activatedMills:
+            activatedMills.remove(([(0, 3), (1, 3), (2, 3)]))
 
-    if board[4][3] == board[5][3] and board[4][3] == board[6][3] and board[4][3] != 0 and ([(4, 3), (5, 3), (6, 3)]) not in activatedMills:
+    if board[4][3] == board[5][3] and board[4][3] == board[6][3] and board[4][3] != 0 and (
+            [(4, 3), (5, 3), (6, 3)]) not in activatedMills:
         screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0,([(4, 3), (5, 3), (6, 3)]))
+        activatedMills.insert(0, ([(4, 3), (5, 3), (6, 3)]))
         return True
+    else:
+        if ([(4, 3), (5, 3), (6, 3)]) in activatedMills:
+            activatedMills.remove(([(4, 3), (5, 3), (6, 3)]))
 
-    if board[2][4] == board[3][4] and board[2][4] == board[4][4] and board[2][4] != 0 and ([(2, 4), (3, 4), (4, 4)]) not in activatedMills:
+    if board[2][4] == board[3][4] and board[2][4] == board[4][4] and board[2][4] != 0 and (
+            [(2, 4), (3, 4), (4, 4)]) not in activatedMills:
         screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0,([(2, 4), (3, 4), (4, 4)]))
+        activatedMills.insert(0, ([(2, 4), (3, 4), (4, 4)]))
         return True
+    else:
+        if ([(2, 4), (3, 4), (4, 4)]) in activatedMills:
+            activatedMills.remove(([(2, 4), (3, 4), (4, 4)]))
 
-    if board[1][5] == board[3][5] and board[1][5] == board[5][5] and board[1][5] != 0 and ([(1, 5), (3, 5), (5, 5)]) not in activatedMills:
+    if board[1][5] == board[3][5] and board[1][5] == board[5][5] and board[1][5] != 0 and (
+            [(1, 5), (3, 5), (5, 5)]) not in activatedMills:
         screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0,([(1, 5), (3, 5), (5, 5)]))
+        activatedMills.insert(0, ([(1, 5), (3, 5), (5, 5)]))
         return True
+    else:
+        if ([(1, 5), (3, 5), (5, 5)]) in activatedMills:
+            activatedMills.remove(([(1, 5), (3, 5), (5, 5)]))
 
-    if board[0][6] == board[3][6] and board[0][6] == board[6][6] and board[0][6] != 0 and ([(0, 6), (3, 6), (6, 6)]) not in activatedMills:
+    if board[0][6] == board[3][6] and board[0][6] == board[6][6] and board[0][6] != 0 and (
+            [(0, 6), (3, 6), (6, 6)]) not in activatedMills:
         screen.blit(textsurface, (0, 0))  # display who created the mill.
-        activatedMills.insert(0,([(0, 6), (3, 6), (6, 6)]))
+        activatedMills.insert(0, ([(0, 6), (3, 6), (6, 6)]))
         return True
+    else:
+        if ([(0, 6), (3, 6), (6, 6)]) in activatedMills:
+            activatedMills.remove(([(0, 6), (3, 6), (6, 6)]))
 
     return False
+
 
 # test board creation
 def testBoardCreation(board, size):
@@ -193,22 +256,47 @@ def testMills(board):
 def drop_piece(board, row, col, piece):
     board[row][col] = piece
 
-def remove_piece(board, row, col):
+
+def check_piece_in_mill(piece):
+    for mill in activatedMills:
+        if piece in mill:
+            return True
+    return False
+
+
+def remove_piece(board, row, col, turnToggle):
+    # figure out if the piece being removed is part of a mill
+    piece = (row, col)
+    no_other_pieces = False
+    if check_piece_in_mill(piece):
+        for i in range(len(board)):
+            for j in range(len(board)):
+                if board[i][j] == turnToggle:
+                    if not check_piece_in_mill((i, j)):
+                        return False
+        no_other_pieces = True
+    if no_other_pieces:
+        for mill in activatedMills:
+            if piece in mill:
+                activatedMills.remove(mill)
     board[row][col] = 0
+    return True
+
+    board[row][col] = 0
+
 
 # this function checks the following:
 # 1. Identify adjacent nodes
 
-#0: [1, 0, 0, 1, 0, 0, 1],
-#1: [0, 1, 0, 1, 0, 1, 0],
-#2: [0, 0, 1, 1, 1, 0, 0],
-#3: [1, 1, 1, 0, 1, 1, 1],
-#4: [0, 0, 1, 1, 1, 0, 0],
-#5: [0, 1, 0, 1, 0, 1, 0],
-#6: [1, 0, 0, 1, 0, 0, 1]
+# 0: [1, 0, 0, 1, 0, 0, 1],
+# 1: [0, 1, 0, 1, 0, 1, 0],
+# 2: [0, 0, 1, 1, 1, 0, 0],
+# 3: [1, 1, 1, 0, 1, 1, 1],
+# 4: [0, 0, 1, 1, 1, 0, 0],
+# 5: [0, 1, 0, 1, 0, 1, 0],
+# 6: [1, 0, 0, 1, 0, 0, 1]
 #    0  1  2  3  4  5  6
 def check_adjacent(curr_row, curr_col):
-
     adjacencies = {}
     adjacencies[(0, 0)] = [(3, 0), (0, 3)]
     adjacencies[(3, 0)] = [(0, 0), (6, 0), (3, 1)]
@@ -226,7 +314,7 @@ def check_adjacent(curr_row, curr_col):
     adjacencies[(2, 3)] = [(2, 2), (2, 4), (1, 3)]
     adjacencies[(4, 3)] = [(4, 2), (4, 4), (5, 3)]
 
-    adjacencies[(5, 3)] = [(4, 3), (6, 3), (5, 1), (5,5)]
+    adjacencies[(5, 3)] = [(4, 3), (6, 3), (5, 1), (5, 5)]
     adjacencies[(6, 3)] = [(5, 3), (6, 0), (6, 6)]
     adjacencies[(2, 4)] = [(2, 3), (3, 4)]
 
@@ -243,7 +331,6 @@ def check_adjacent(curr_row, curr_col):
     adjacencies[(4, 2)] = [(3, 2), (4, 3)]
 
     return adjacencies[(curr_row, curr_col)]
-
 
 
 # phase 1: players place their pieces on the board
@@ -358,7 +445,7 @@ if playing:
     # randomize turn
     playerTurn = selectPlayerTurn()
     placingBool = True  # bool used to determine whether a click is to place a piece or remove a piece
-    shiftingBool = False # bool used to determine whether user is shifting a piece
+    shiftingBool = False  # bool used to determine whether user is shifting a piece
     turnToggle = 1  # this is used to toggle between white and black
     if playerTurn == 1:
         p1.color = "white"
@@ -399,8 +486,8 @@ if playing:
                                 else:
                                     p2.placedPieces += 1
                                     p2.pieceCount += 1
-                                if checkForMill(board, "white"): # if there is a mill allow for removal of piece
-                                    placingBool = False # setting this to allow for removal instead of placing
+                                if checkForMill(board, "white"):  # if there is a mill allow for removal of piece
+                                    placingBool = False  # setting this to allow for removal instead of placing
 
                             else:
                                 drop_piece(board, row - 1, col, 2)
@@ -418,7 +505,8 @@ if playing:
                         elif p1.pieceCount > 2 and p2.pieceCount > 2:
                             screen.fill((255, 0, 0))
                             myfont = pygame.font.SysFont('Comic Sans MS', 30)
-                            textsurfaceStage2 = myfont.render("Stage two has begun move pieces to adjacent spot  ",False, (0, 0, 0))
+                            textsurfaceStage2 = myfont.render("Stage two has begun move pieces to adjacent spot  ",
+                                                              False, (0, 0, 0))
                             screen.blit(textsurfaceStage2, (0, 5))
                             adjacent_nodes = check_adjacent(row - 1, col)
                             shiftingBool = True
@@ -437,15 +525,10 @@ if playing:
                     if row < 1 or validBoard[row - 1][col] != 1:
                         print("Illegal move in stage 2")
                     else:
-                        if turnToggle == 1:
-                            if board[row - 1][col] == 1:  # check if it is the opposing piece
-                                remove_piece(board, row - 1, col)
+                        if board[row - 1][col] == turnToggle:  # check if it is the opposing piece
+                            if remove_piece(board, row - 1, col, turnToggle):
                                 p1.pieceCount -= 1
-                        else:
-                            if board[row - 1][col] == 2:  # check if it is the opposing piece
-                                remove_piece(board, row - 1, col)
-                                p2.pieceCount -= 1
-                        placingBool = True
+                                placingBool = True
 
                 elif event.type == pygame.MOUSEBUTTONDOWN and placingBool is True and shiftingBool is True:
                     posx = event.pos[0]  # x position of mouse click
@@ -475,7 +558,8 @@ if playing:
                     else:
                         current_node = (row - 1, col)
                         next_node = (newRow - 1, newCol)
-                        if board[newRow - 1][newCol] == 0 and next_node in adjacent_nodes:  # check if it is the opposing piece
+                        if board[newRow - 1][
+                            newCol] == 0 and next_node in adjacent_nodes:  # check if it is the opposing piece
                             board[newRow - 1][newCol] = turnToggle
                             board[row - 1][col] = 0
                         if turnToggle == 1:
@@ -488,9 +572,7 @@ if playing:
                             turnToggle = 1
                     shiftingBool = False
 
-
                 draw_board(board, validBoard)
                 pygame.display.update()
 
                 # begin the game turns in a loop
-
