@@ -551,7 +551,7 @@ if playing:
                     elif p1.pieceCount == 3 or p2.pieceCount == 3:
                         current_node = (row - 1, col)
                         next_node = (newRow - 1, newCol)
-                        if board[newRow - 1][newCol] == 0:  # check if it is the opposing piece
+                        if board[newRow - 1][newCol] == 0:
                             board[newRow - 1][newCol] = turnToggle
                             board[row - 1][col] = 0
                         if turnToggle == 1:
@@ -566,17 +566,17 @@ if playing:
                         current_node = (row - 1, col)
                         next_node = (newRow - 1, newCol)
                         if board[newRow - 1][
-                            newCol] == 0 and next_node in adjacent_nodes:  # check if it is the opposing piece
+                            newCol] == 0 and next_node in adjacent_nodes and current_node != next_node:
                             board[newRow - 1][newCol] = turnToggle
                             board[row - 1][col] = 0
-                        if turnToggle == 1:
-                            if checkForMill(board, "white"):
-                                placingBool = False
-                            turnToggle = 2
-                        else:
-                            if checkForMill(board, "black"):
-                                placingBool = False
-                            turnToggle = 1
+                            if turnToggle == 1:
+                                if checkForMill(board, "white"):
+                                    placingBool = False
+                                turnToggle = 2
+                            else:
+                                if checkForMill(board, "black"):
+                                    placingBool = False
+                                turnToggle = 1
                     shiftingBool = False
 
                 draw_board(board, validBoard)
