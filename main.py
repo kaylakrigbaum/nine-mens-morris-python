@@ -334,58 +334,6 @@ def check_adjacent(curr_row, curr_col):
     return adjacencies[(curr_row, curr_col)]
 
 
-# phase 1: players place their pieces on the board
-# def placementStage(white, black, board, validBoard):
-#     currentPlayer = 'white'
-#     currentTurnNum = 1
-#     for event in pygame.event.get():
-#         if event.type == pygame.QUIT:
-#             sys.exit()
-#
-#         while white.placedPieces < 9 or black.placedPieces < 9:
-#             if event.type == pygame.MOUSEBUTTONDOWN:
-#                 posx = event.pos[0]
-#                 posy = event.pos[1]
-#
-#                 col = int(math.floor(posx / square_size))
-#                 row = int(math.floor(posy / square_size))
-#
-#                 if validBoard[col][row] == 1:
-#                     print("You clicked legally")
-#                 else:
-#                     print("Illegal")
-#                 # convert col letter to index
-#                 colChar = move[0]
-#                 colNum = ord(colChar) - 97
-#                 rowNum = int(move[1])
-#
-#                 # check if move is legal
-#                 if colNum < len(validBoard) and rowNum < len(validBoard) and validBoard[rowNum][colNum] == 1 and \
-#                         board[rowNum][colNum] == 0:
-#                     # place piece
-#                     board[rowNum][colNum] = currentTurnNum
-#
-#                     # check for mill
-#                     if white.placedPieces >= 2 or black.placedPieces >= 2:
-#                         checkForMill(board, True, currentPlayer)
-#
-#                     displayBoard(board, validBoard, 7, 7)
-#                     if currentTurnNum == 1:
-#                         white.placedPieces += 1
-#                         currentPlayer = "black"
-#                         currentTurnNum = 2
-#
-#                     else:
-#                         black.placedPieces += 1
-#                         currentPlayer = "white"
-#                         currentTurnNum = 1
-#
-#                 else:
-#                     print("Invalid location.")
-#                     continue
-#     return
-
-
 def draw_board(board, validBoard):
     for r in range(7):
         for c in range(7):
@@ -456,10 +404,21 @@ if playing:
         p1.color = "black"
 
     while playing:
+        myfont = pygame.font.SysFont('Comic Sans MS', 30)
+
+        # creating a text surface that will display in pygame who has created a mill.
         if testBoardCreation(board, 7):
             draw_board(board, validBoard)
             pygame.display.update()  # updates the screen
             for event in pygame.event.get():
+                if placingBool is True and shiftingBool is not True:
+                    screen.fill((255, 0, 0))
+                    if turnToggle == 1:
+                        textsurface = myfont.render("WHITE'S TURN! PLACE A PIECE", False, (0, 0, 0))
+                    else:
+                        textsurface = myfont.render("BLACK'S TURN! PLACE A PIECE", False, (0, 0, 0))
+                    screen.blit(textsurface, (0, 0))
+
                 if event.type == pygame.QUIT:
                     sys.exit()  # ends program when you close game
 
@@ -470,12 +429,13 @@ if playing:
                     col = int(math.floor(posx / square_size))
                     row = int(math.floor(posy / square_size))
 
+
+
                     # makes sure that you clicked on a circle
                     if row < 1 or validBoard[row - 1][col] != 1:
                         print("Illegal move")
 
                     else:
-
                         # placement stage
                         if p1.placedPieces < 9 or p2.placedPieces < 9:
                             if turnToggle == 1:
@@ -494,6 +454,9 @@ if playing:
                                     print("Choose an empty space")
 
                             else:
+                                screen.fill((255, 0, 0))
+                                textsurface = myfont.render("BLACK'S TURN! PLACE A PIECE", False, (0, 0, 0))
+                                screen.blit(textsurface, (0, 0))
                                 if board[row - 1][col] == 0:
                                     drop_piece(board, row - 1, col, 2)
                                     turnToggle = 1
