@@ -482,6 +482,11 @@ if playing:
                             shiftingBool = True
 
                         else:
+                            screen.fill((255, 0, 0))
+                            myfont = pygame.font.SysFont('Comic Sans MS', 30)
+                            textsurfaceEndGame = myfont.render("Game over!",
+                                                              False, (0, 0, 0))
+                            screen.blit(textsurfaceEndGame, (0, 5))
                             print("Game over")
 
                 elif event.type == pygame.MOUSEBUTTONDOWN and placingBool is not True:
