@@ -38,15 +38,17 @@ def menu():
 
             if event.type == pygame.QUIT:
                 pygame.quit()
-                return False
-            # if the user clicks on the quit, pygame exits, else if they click play the game board populates
+                return 0
+            # if the user clicks on the quit, pygame exits, else if they click play the game, the board populates
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if width / 2 - 50 <= mouse[0] <= width / 2 + 90 and height / 2 + 240 <= mouse[
                     1] <= height / 2 + 280:  # 140 and 40
                     pygame.quit()
-                    return False
+                    return 0
                 elif width / 2 - 60 <= mouse[0] <= width / 2 + 120 and height / 2 <= mouse[1] <= height / 2 + 50:
-                    return True
+                    return 1
+                elif width / 2 - 60 <= mouse[0] <= width / 2 + 120 and height / 2 + 120 <= mouse[1] <= height / 2 + 180:
+                    return 2
 
         # picking the font that we want to use for the title of the game
         myfont = pygame.font.SysFont('Comic Sans MS', 84)
@@ -66,6 +68,7 @@ def menu():
 
         screen.blit(quitText, (width / 2 - 25, height / 2 + 245))  # displaying the text
 
+
         # rendering text for the "Play Game" button
         playText = buttonFont.render("Play Game", False, BLACK)
 
@@ -76,6 +79,16 @@ def menu():
             pygame.draw.rect(screen, DARKGREY, [width / 2 - 60, height / 2, 180, 50])
 
         screen.blit(playText, (width / 2 - 50, height / 2 + 0))  # displaying the text
+
+
+        PlayAiText = buttonFont.render("Play vs AI", False, BLACK)
+
+        if width / 2 - 60 <= mouse[0] <= width / 2 + 120 and height / 2 + 120  <= mouse[1] <= height / 2 + 180:
+            pygame.draw.rect(screen, SLATE, [width / 2 - 60, height / 2 + 120, 180, 50])
+        else:
+            pygame.draw.rect(screen, DARKGREY, [width / 2 - 60, height / 2 + 120, 180, 50])
+
+        screen.blit(PlayAiText, (width / 2 - 50, height / 2 + 115))
 
         pygame.display.set_caption("Main Menu")
         pygame.display.update()
@@ -359,7 +372,7 @@ class player:
 # main game logic area
 playing = menu()
 
-if playing:
+if playing == 1 or playing == 2:
     pygame.init()
     # screen variables
     square_size = 100
