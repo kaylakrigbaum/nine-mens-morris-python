@@ -3,7 +3,6 @@ from main import *
 
 class TestGameAspects(unittest.TestCase):
     def test_player_vs_player_button(self):
-        menu()
         if menu() == 1:
             self.assertEqual(menu(), 1, "User Selected Player vs Player Successfully")
         else:
